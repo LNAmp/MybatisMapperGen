@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arpicots.dao.user.ITUmgrRoleDao">
+	<resultMap type="TUmgrRole" id="turMap">
+		<id column="tur_id" property="id" jdbcType="INTEGER" />
+		<result column="tur_role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="tur_role_code" property="roleCode" jdbcType="VARCHAR" />
+		<result column="tur_description" property="description"
+			jdbcType="VARCHAR" />
+		<result column="tur_status" property="status" jdbcType="VARCHAR" />
+		<result column="tur_city_code" property="cityCode" jdbcType="VARCHAR" />
+		<result column="tur_role_level" property="roleLevel" jdbcType="INTEGER" />
+		<result column="tur_child_count" property="childCount"
+			jdbcType="INTEGER" />
+		<result column="tur_parent_id" property="parentID" jdbcType="INTEGER" />
+		<result column="tur_app_id" property="appId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="tur_columns">tur.id tur_id,tur.role_name tur_role_name,tur.role_code
+		tur_role_code,tur.description tur_description,tur.status
+		tur_status,tur.city_code tur_city_code,tur.role_level
+		tur_role_level,tur.child_count tur_child_count,tur.parent_id
+		tur_parent_id,tur.app_id tur_app_id</sql>
+	<sql id="condition_where_sql">
+		<if test="role != null ">
+			<where>
+				<if test="role.id != null ">id=#{role.id}</if>
+				<if test="role.roleName != null "> and role_name=#{role.roleName}</if>
+				<if test="role.roleCode != null "> and role_code=#{role.roleCode}</if>
+				<if test="role.description != null "> and description=#{role.description}</if>
+				<if test="role.status != null "> and status=#{role.status}</if>
+				<if test="role.cityCode != null "> and city_code=#{role.cityCode}</if>
+				<if test="role.roleLevel != null "> and role_level=#{role.roleLevel}</if>
+				<if test="role.childCount != null "> and child_count=#{role.childCount}</if>
+				<if test="role.parentID != null "> and parent_id=#{role.parentID}</if>
+				<if test="role.appId != null "> and app_id=#{role.appId}</if>
+			</where>
+		</if>
+	</sql>
+	<insert id="save" parameterType="TUmgrRole" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into hdic_user.t_umgr_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null ">id,</if>
+			<if test="roleName != null ">role_name,</if>
+			<if test="roleCode != null ">role_code,</if>
+			<if test="description != null ">description,</if>
+			<if test="status != null ">status,</if>
+			<if test="cityCode != null ">city_code,</if>
+			<if test="roleLevel != null ">role_level,</if>
+			<if test="childCount != null ">child_count,</if>
+			<if test="parentID != null ">parent_id,</if>
+			<if test="appId != null ">app_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null ">#{id,jdbcType=INTEGER},</if>
+			<if test="roleName != null ">#{roleName,jdbcType=VARCHAR},</if>
+			<if test="roleCode != null ">#{roleCode,jdbcType=VARCHAR},</if>
+			<if test="description != null ">#{description,jdbcType=VARCHAR},</if>
+			<if test="status != null ">#{status,jdbcType=VARCHAR},</if>
+			<if test="cityCode != null ">#{cityCode,jdbcType=VARCHAR},</if>
+			<if test="roleLevel != null ">#{roleLevel,jdbcType=INTEGER},</if>
+			<if test="childCount != null ">#{childCount,jdbcType=INTEGER},</if>
+			<if test="parentID != null ">#{parentID,jdbcType=INTEGER},</if>
+			<if test="appId != null ">#{appId,jdbcType=INTEGER},</if>
+		</trim>
+	</insert>
+	<select id="getAll" parameterType="map" resultMap="turMap"
+		resultType="List">
+		select
+		<include refid="tur_columns" />
+		from hdic_user.t_umgr_role tur
+		<include refid="condition_where_sql" />
+	</select>
+	<select id="getOneById" parameterType="Integer" resultMap="turMap">
+		select
+		<include refid="tur_columns" />
+		from hdic_user.t_umgr_role tur where id=#{id}
+	</select>
+	<delete id="deleteById" parameterType="Integer">delete from
+		hdic_user.t_umgr_role tur where id=#{id}</delete>
+	<update id="update" parameterType="TUmgrRole">
+		update hdic_user.t_umgr_role tur
+		<set>
+			<if test="roleName != null ">role_name=#{roleName}</if>
+			<if test="roleCode != null ">role_code=#{roleCode}</if>
+			<if test="description != null ">description=#{description}</if>
+			<if test="status != null ">status=#{status}</if>
+			<if test="cityCode != null ">city_code=#{cityCode}</if>
+			<if test="roleLevel != null ">role_level=#{roleLevel}</if>
+			<if test="childCount != null ">child_count=#{childCount}</if>
+			<if test="parentID != null ">parent_id=#{parentID}</if>
+			<if test="appId != null ">app_id=#{appId}</if>
+		</set>
+		where id=#{id}
+	</update>
+</mapper>
